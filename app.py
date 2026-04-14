@@ -3,6 +3,20 @@ from py_clob_client.client import ClobClient
 from py_clob_client.clob_types import OrderArgs
 from py_clob_client.order_builder.constants import BUY, SELL
 import os
+import requests
+import py_clob_client.http_helpers.helpers as helpers
+
+PROXY = {
+    "http": "http://brd-customer-hl_7fd945c2-zone-residential_proxy1-country-uk:6o7yof0w641d@brd.superproxy.io:33335",
+    "https": "http://brd-customer-hl_7fd945c2-zone-residential_proxy1-country-uk:6o7yof0w641d@brd.superproxy.io:33335"
+}
+
+class ProxiedSession(requests.Session):
+    def __init__(self):
+        super().__init__()
+        self.proxies.update(PROXY)
+
+helpers.Session = ProxiedSession
 
 app = FastAPI()
 
